@@ -9,11 +9,8 @@ def create_new_emp(first_name, last_name, department):
         name = first_name
     department_id = find_dep_id(department)
 
-    old_emp = Employee.query.filter_by(name=name).first()
-    if old_emp:
-        old_emp = Employee.query.filter_by(department_id=department_id).first()
-        if old_emp:
-            return False
+    if Employee.query.filter_by(name=name, department_id=department_id).first():
+        return False
 
     new_emp = Employee(name=name, department_id=department_id,
                        emp_email=create_emp_email(first_name, last_name))
@@ -36,8 +33,6 @@ def search_for_emp(emp_id):
 
 def find_dep_id(dep_name):
     print("Searching for Department {}".format(dep_name))
-    if not Department.query.all():
-        populate_departments()
     dep = Department.query.filter_by(name=dep_name).first()
     if dep:
         print("Department ID: {}".format(dep.department_id))
@@ -59,26 +54,35 @@ def create_emp_email(first_name, last_name):
     return emp_email
 
 
+def check_for_db():
+    if not Department.query.all():
+        populate_departments()
+
+
+def find_all_departments():
+    deps = Department.query.all()
+    return deps
+
+
 def populate_departments():
     departments = []
-    aiml = Department(name="AI/ML", department_id=100)
-    departments.append(aiml)
-    design = Department(name="Design")
-    departments.append(design)
-    development = Department(name="Development")
-    departments.append(development)
-    finance = Department(name="Finance")
+    finance = Department(name="Finance", department_id=100)
     departments.append(finance)
-    gm = Department(name="General Management")
+    gm = Department(name="Management", department_id=300)
     departments.append(gm)
     hr = Department(name="HR")
     departments.append(hr)
-    marketing = Department(name="Marketing")
-    departments.append(marketing)
+
+    engineering = Department(name="Engineering", department_id=200)
+    departments.append(engineering)
     ops = Department(name="Operations")
     departments.append(ops)
     qa = Department(name="Quality Assurance")
     departments.append(qa)
+
+
+    marketing = Department(name="Marketing", department_id=400)
+    departments.append(marketing)
     sales = Department(name="Sales")
     departments.append(sales)
 

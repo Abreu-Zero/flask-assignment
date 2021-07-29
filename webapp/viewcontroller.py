@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from .query_handler import create_new_emp, search_for_emp
+from .query_handler import create_new_emp, search_for_emp, find_all_departments, check_for_db
 
 viewsBP = Blueprint("view", __name__)
 
 
 @viewsBP.route("/", methods=["GET", "POST"])
 def home_page():
+    check_for_db()
     if request.method == "POST":
         auth_form = request.form
         print(auth_form)
@@ -19,6 +20,9 @@ def home_page():
 
 @viewsBP.route("/add_new_emp", methods=["GET", "POST"])
 def add_new_emp():
+    departments = find_all_departments()
+    for d in departments:
+        print(d)
     if request.method == "POST":
         auth_form = request.form
         print(auth_form)
@@ -28,5 +32,5 @@ def add_new_emp():
 
         else:
             flash("Failed to create new employee - There is already someone with this name in this department")
-    return render_template("add_new_emp.html")
+    return render_template("add_new_emp.html", departments=departments)
 
