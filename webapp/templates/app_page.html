@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Employee Searcher 3000 - Your employee searcher application</title>
+    <style>
+        /* Add a black background color to the top navigation bar */
+.searchb, .topnav{
+  overflow: hidden;
+  background-color: #e9e9e9;
+}
+
+.searchb a {
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  width: 5%;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.searchb a.active {
+  background-color: #555555;
+  color: white;
+}
+
+.searchb button {
+  background-color: #555555;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  width: 15%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.searchb input[type=number] {
+  padding: 6px;
+  border: none;
+  width: 70%;
+  margin-top: 8px;
+  margin-right: 16px;
+  margin-left: 16px;
+  font-size: 17px;
+}
+
+@media screen and (max-width: 600px) {
+  .searchb a, .searchb input[type=text], .searchb button {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  .topnav input[type=number] {
+    border: 1px solid #ccc;
+  }
+}
+    </style>
+</head>
+<body>
+
+    <h3 align="center">Employee Searcher 3000</h3>
+    <p align="center">Please use the searchbar to search for an employee ID</p>
+    <p align="center">Or press the + to add a new employee to the system</p>
+    <div class="searchb">
+        <form method="POST">
+            <a class="active"  href="/add_new_emp" >+</a>
+            <input type="number" id="emp_id" name="emp_id" placeholder="Search.." min="0" required>
+            <button>Search</button>
+        </form>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=false) %}
+        {% if messages %}
+            {% for m in messages %}
+                <p align="center">
+                    {{m}}
+                </p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
